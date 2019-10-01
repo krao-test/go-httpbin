@@ -12,7 +12,7 @@ jobs:
       - run:
           name: Build Docker image
           command: |
-            IMAGE_TAG=$CIRCLE_BUILD_NUM
+            IMAGE_TAG=$CIRCLE_SHA1
             docker build -t $RAFAY_REGISTRY_ENDPOINT/$RAFAY_ORGANIZATION_LABEL/httpbin:$IMAGE_TAG .
       - run:
           name: Archive Docker Image
@@ -33,6 +33,7 @@ jobs:
      - run:
         name: Publish Docker Image to Rafay Registry
         command: |
+          IMAGE_TAG=$CIRCLE_SHA1
           echo "$RAFAY_REGISTRY_SECRET" | docker login -u "$RAFAY_USERNAME" --password-stdin $RAFAY_REGISTRY_ENDPOINT
           docker push $RAFAY_REGISTRY_ENDPOINT/$RAFAY_ORGANIZATION_LABEL/httpbin:$IMAGE_TAG
 
