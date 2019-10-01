@@ -10,8 +10,9 @@ jobs:
       - setup_remote_docker
       - run:
           name: Build Docker image
-          command: IMAGE_TAG=${CIRCLE_TAG/v/''}
-          command: docker build -t $IMAGE_NAME:$IMAGE_TAG .
+          command: |
+            IMAGE_TAG=${CIRCLE_TAG/v/''}
+            docker build -t $IMAGE_NAME:$IMAGE_TAG .
 workflows:
   version: 2
   build-master:
