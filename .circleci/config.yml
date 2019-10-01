@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     environment:
-          IMAGE_NAME: ${RAFAY_REGISTRY_ENDPOINT}/${RAFAY_ORGANIZATION_LABEL}/httpbin
+          IMAGE_NAME: $RAFAY_REGISTRY_ENDPOINT/$RAFAY_ORGANIZATION_LABEL/httpbin
     docker:
       - image: circleci/buildpack-deps:stretch
     steps:
@@ -11,7 +11,7 @@ jobs:
       - run:
           name: Build Docker image
           command: |
-            IMAGE_TAG=${CIRCLE_TAG/v/''}
+            IMAGE_TAG=$CIRCLE_BUILD_NUM
             docker build -t $IMAGE_NAME:$IMAGE_TAG .
 workflows:
   version: 2
