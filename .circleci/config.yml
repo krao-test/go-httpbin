@@ -16,7 +16,7 @@ jobs:
             docker build -t $RAFAY_REGISTRY_ENDPOINT/$RAFAY_ORGANIZATION_LABEL/httpbin:$IMAGE_TAG .
       - run:
           name: Archive Docker Image
-          command: docker save -o image.tar $RAFAY_REGISTRY_ENDPOINT/$RAFAY_ORGANIZATION_LABEL/httpbin:$IMAGE_TAG
+          command: docker save -o image.tar $RAFAY_REGISTRY_ENDPOINT/$RAFAY_ORGANIZATION_LABEL/httpbin
       - persist_to_workspace:
           root: .
           paths:
