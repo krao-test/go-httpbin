@@ -1,0 +1,14 @@
+version: 2
+jobs:
+    machine: true
+    parameters:
+      tag:
+        type: string
+        default: ${CIRCLE_SHA1}
+      dockerfile:
+        type: string
+        default: Dockerfile
+    steps:
+      - checkout
+      - build:
+          dockerfile: <<parameters.dockerfile>>
