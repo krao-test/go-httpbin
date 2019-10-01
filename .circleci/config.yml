@@ -1,6 +1,6 @@
 version: 2
 jobs:
-    build:
+    httpbin:
         machine: true
         parameters:
         tag:
@@ -17,6 +17,6 @@ workflows:
   version: 2
   build_and_test:
     jobs:
-            - build:
+            - httpbin:
                     tag: ${CIRCLE_TAG}
 
