@@ -1,7 +1,7 @@
 version: 2.1
 orbs:
   docker: circleci/docker@0.5.13
-  ktest: krao-test/ktest@0.1.1
+  ktest: krao-test/ktest@0.1.2
 
 jobs:
   Publish-Workload:
@@ -27,7 +27,7 @@ jobs:
 
 workflows:
   version: 2
-  build-master:
+  Build Image and Publish Workload:
     jobs:
       - docker/publish:
           deploy: true
@@ -39,8 +39,12 @@ workflows:
           registry: $RAFAY_REGISTRY_ENDPOINT
           tag: ${CIRCLE_SHA1}
 
-  Test-Workload:
-    jobs:
-      - Publish-Workload
+      - Publish-Workload:
+          filters:
+            branches:
+              only: master
+          requires:
+            - Build and push httpbin to Rafay Registry
+
 
 
