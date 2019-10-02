@@ -1,7 +1,7 @@
 version: 2.1
 orbs:
   docker: circleci/docker@0.5.13
-  ktest: krao-test/ktest@0.1.4
+  ktest: krao-test/ktest@0.1.5
 
 jobs:
   Publish-Workload:
