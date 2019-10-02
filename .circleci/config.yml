@@ -14,7 +14,7 @@ jobs:
         - ktest/set_workload_image:
               workload: demo-circleci
               container: httpbin
-              image: $RAFAY_REGISTRY_ENDPOINT/$RAFAY_ORGANIZATION_LABEL/httpbin
+              image: $RAFAY_ORGANIZATION_LABEL/httpbin
               tag: $CIRCLE_SHA1
         - ktest/publish_workload:
               workload: demo-circleci
