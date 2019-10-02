@@ -20,12 +20,19 @@ jobs:
               workload: demo-circleci
         - ktest/check_workload_status:
               workload: demo-circleci
+  Test-Workload:
+      machine: true
+      steps:
         - run:
               name: Test the Workload
               command: |
-                 sleep 60
-                 curl -k -v https://demo-circleci.run.rafay-edge.net
-
+                sleep 60
+                curl -k -v https://demo-circleci.run.rafay-edge.net
+  Delete-Workload:
+      machine: true
+      steps:
+        - ktest/delete_workload:
+            workload: demo-circleci
 
 workflows:
   version: 2
@@ -47,6 +54,14 @@ workflows:
               only: master
           requires:
             - Build and push httpbin to Rafay Registry
-
+      - Test-Workload:
+          requires:
+            - Build and push httpbin to Rafay Registry
+            - Publish-Workload
+      - Delete-Workload:
+          requires:
+            - Build and push httpbin to Rafay Registry
+            - Publish-Workload
+            - Test-Workload
 
 
