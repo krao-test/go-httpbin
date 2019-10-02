@@ -13,6 +13,6 @@ workflows:
           dockerfile: Dockerfile
           image: RAFAY_REGISTRY_ENDPOINT/RAFAY_ORGANIZATION_LABEL/httpbin
           name: Build httpbin
-          registry: RAFAY_REGISTRY
+          registry: RAFAY_REGISTRY_ENDPOINT
           tag: ${CIRCLE_SHA1}
 
