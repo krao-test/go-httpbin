@@ -22,7 +22,9 @@ jobs:
               workload: demo-circleci
         - run:
               name: Test the Workload
-              command: curl -k -v https://demo-circleci.run.rafay-edge.net
+              command: |
+                 sleep 60
+                 curl -k -v https://demo-circleci.run.rafay-edge.net
 
 
 workflows:

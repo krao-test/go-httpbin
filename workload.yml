@@ -18,7 +18,7 @@ containers:
   name: httpbin
   numGpus: 0
   ports:
-  - port: 80
+  - port: 8080
     protocol: TCP
   readinessProbe:
     failureThreshold: 1
@@ -45,7 +45,7 @@ ingress:
   - host: httpbin
     ingressPort: 5000
     path: /
-    port: 80
+    port: 8080
     preserveHost: true
     protocol: HTTP
     routeType: Internal
