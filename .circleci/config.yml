@@ -1,53 +1,42 @@
 version: 2.1
-executors:
-  docker-publisher:
-    docker:
-      - image: circleci/buildpack-deps:stretch
+orbs:
+  docker: circleci/docker@0.5.13
+
 jobs:
-  build:
-    executor: docker-publisher
+  build-image:
+    description: Build a Docker image
+    parameters:
+      dockerfile:
+        type: string
+        default: Dockerfile
+      extra_build_args:
+        type: string
+        default: ''
+      image_name:
+        type: string
+      registry:
+        type: string
+      tag:
+        type: string
+        default: ${CIRCLE_SHA1}
     steps:
       - checkout
-      - setup_remote_docker
-      - run:
-          name: Build Docker image
-          command: |
-            IMAGE_TAG=$CIRCLE_SHA1
-            docker build -t $RAFAY_REGISTRY_ENDPOINT/$RAFAY_ORGANIZATION_LABEL/httpbin:$IMAGE_TAG .
-      - run:
-          name: Archive Docker Image
-          command: docker save -o image.tar $RAFAY_REGISTRY_ENDPOINT/$RAFAY_ORGANIZATION_LABEL/httpbin
-      - persist_to_workspace:
-          root: .
-          paths:
-            - ./image.tar
-  publish:
-    executor: docker-publisher
-    steps:
-     - attach_workspace:
-        at: /tmp/workspace
-     - setup_remote_docker
-     - run:
-        name: Load Archived Docker Image
-        command: docker load -i /tmp/workspace/image.tar
-     - run:
-        name: Publish Docker Image to Rafay Registry
-        command: |
-          IMAGE_TAG=$CIRCLE_SHA1
-          echo "$RAFAY_REGISTRY_SECRET" | docker login -u "$RAFAY_USERNAME" --password-stdin $RAFAY_REGISTRY_ENDPOINT
-          docker push $RAFAY_REGISTRY_ENDPOINT/$RAFAY_ORGANIZATION_LABEL/httpbin:$IMAGE_TAG
+      - docker/build:
+          dockerfile: << parameters.dockerfile >>
+          image: << parameters.image_name >>
+          tag: << parameters.tag >>
 
 workflows:
   version: 2
   build-master:
     jobs:
-      - build:
-          filters:
-            branches:
-              only: master
-      - publish:
-          requires:
-            - build
-          filters:
-            branches:
-              only: master
+      - docker/publish:
+          deploy: true
+          docker-password: $RAFAY_REGISTRY_SECRET
+          docker-username: $RAFAY_USERNAME
+          dockerfile: Dockerfile
+          image: $RAFAY_REGISTRY_ENDPOINT/$RAFAY_ORGANIZATION_LABEL/httpbin
+          name: Build httpbin
+          registry: $RAFAY_REGISTRY
+          tag: ${CIRCLE_SHA1}
+
