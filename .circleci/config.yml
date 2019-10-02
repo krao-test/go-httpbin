@@ -8,11 +8,11 @@ workflows:
     jobs:
       - docker/publish:
           deploy: true
-          docker-password: $RAFAY_REGISTRY_SECRET
-          docker-username: $RAFAY_USERNAME
+          docker-password: RAFAY_REGISTRY_SECRET
+          docker-username: RAFAY_USERNAME
           dockerfile: Dockerfile
-          image: $RAFAY_REGISTRY_ENDPOINT/$RAFAY_ORGANIZATION_LABEL/httpbin
+          image: RAFAY_REGISTRY_ENDPOINT/RAFAY_ORGANIZATION_LABEL/httpbin
           name: Build httpbin
-          registry: $RAFAY_REGISTRY
+          registry: RAFAY_REGISTRY
           tag: ${CIRCLE_SHA1}
 
