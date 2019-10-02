@@ -2,30 +2,6 @@ version: 2.1
 orbs:
   docker: circleci/docker@0.5.13
 
-jobs:
-  build-image:
-    description: Build a Docker image
-    parameters:
-      dockerfile:
-        type: string
-        default: Dockerfile
-      extra_build_args:
-        type: string
-        default: ''
-      image_name:
-        type: string
-      registry:
-        type: string
-      tag:
-        type: string
-        default: ${CIRCLE_SHA1}
-    steps:
-      - checkout
-      - docker/build:
-          dockerfile: << parameters.dockerfile >>
-          image: << parameters.image_name >>
-          tag: << parameters.tag >>
-
 workflows:
   version: 2
   build-master:
