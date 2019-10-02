@@ -8,6 +8,7 @@ jobs:
       docker:
         - image: circleci/python
       steps:
+        - checkout
         - ktest/init
         - ktest/add_workload:
               yaml_file: workload.yml
@@ -27,7 +28,7 @@ jobs:
 
 workflows:
   version: 2
-  Build Image and Publish Workload:
+  build-master:
     jobs:
       - docker/publish:
           deploy: true
