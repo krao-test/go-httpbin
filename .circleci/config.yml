@@ -5,8 +5,7 @@ orbs:
 
 jobs:
   Publish-Workload:
-      docker:
-        - image: circleci/python
+      machine: true
       steps:
         - checkout
         - ktest/init
