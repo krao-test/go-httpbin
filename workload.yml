@@ -1,0 +1,84 @@
+containers:
+- configuration: []
+  gpuEnabled: false
+  gpuVendor: Nvidia
+  imageName: rcr.rafay-edge.net:6000/test_prod_org/kutumba/httpbin
+  imageRegistry: d27rnk4
+  imageTag: 50d78e13c7cf7c3e843621c5b042c8d767560969
+  livenessProbe:
+    failureThreshold: 1
+    initialDelay: 5
+    period: 10
+    probeType: NoProbe
+    successThreshold: 1
+    timeout: 10
+  logging: []
+  memoryRequest: 64Mi
+  metrics: []
+  name: httpbin
+  numGpus: 0
+  ports:
+  - port: 80
+    protocol: TCP
+  readinessProbe:
+    failureThreshold: 1
+    initialDelay: 5
+    period: 10
+    probeType: NoProbe
+    successThreshold: 1
+    timeout: 10
+  size: Micro
+  volumes: []
+ingress:
+- apiKeyHeaderName: apikey
+  auth: NoAuth
+  caCertId: null
+  certId: null
+  cname: demo-circleci.run.rafay-edge.net
+  domain: SystemDomain
+  host: demo-circleci
+  ingressType: APIGateway
+  name: demo-circleci
+  port: 443
+  protocol: HTTPS
+  routes:
+  - host: httpbin
+    ingressPort: 5000
+    path: /
+    port: 80
+    preserveHost: true
+    protocol: HTTP
+    routeType: Internal
+loggingEndpoint: null
+metricsEndpoint: null
+modifiedAt: '2019-10-02T17:52:50.366105Z'
+name: demo-circleci
+namespace: test-prod-org
+placementPolicy:
+  latency: 200
+  locationHints: []
+  locations:
+  - losangeles-us
+  policyType: Location
+  refinement:
+    contract:
+      alert: false
+      enabled: false
+      threshold: 3
+      tolerance: 0.1
+    expand:
+      alert: false
+      enabled: false
+      threshold: 3
+      tolerance: 0.1
+    floorSamplesPerSecond: 10
+    intervalSecond: 180
+    percent: 90
+sharedVolumes: []
+upgradePolicy:
+  policyType: RollingUpdate
+  rollingUpdate:
+    autoRollbackOnFailure: false
+    clusterSelectionAuto: true
+    globalRolloutAuto: true
+    testUpgrade: false
