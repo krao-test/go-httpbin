@@ -1,10 +1,13 @@
 containers:
-- configuration: []
+- args: []
+  command: []
+  configuration: []
+  deploymentType: Deployment
   gpuEnabled: false
   gpuVendor: Nvidia
-  imageName: rcr.rafay-edge.net/test_prod_org_private/kutumba.manne/km-httpbin 
+  imageName: rcr.rafay-edge.net/test_prod_org_private/kutumba.manne/km-httpbin
   imageRegistry: 5m17rmy
-  imageTag: 50d78e13c7cf7c3e843621c5b042c8d767560969
+  imageTag: '44'
   livenessProbe:
     failureThreshold: 1
     initialDelay: 5
@@ -51,34 +54,20 @@ ingress:
     routeType: Internal
 loggingEndpoint: null
 metricsEndpoint: null
-modifiedAt: '2019-10-02T17:52:50.366105Z'
+modifiedAt: '2020-03-27T16:45:46.743344Z'
 name: demo-circleci
 namespace: test-prod-org-private
 placementPolicy:
+  clusterLabelSelector:
+  - km-eks-prod-0115
   latency: 200
-  locationHints: []
-  locations:
-  - losangeles-us
-  policyType: Location
-  refinement:
-    contract:
-      alert: false
-      enabled: false
-      threshold: 3
-      tolerance: 0.1
-    expand:
-      alert: false
-      enabled: false
-      threshold: 3
-      tolerance: 0.1
-    floorSamplesPerSecond: 10
-    intervalSecond: 180
-    percent: 90
+  policyType: Labels
 sharedVolumes: []
 upgradePolicy:
   policyType: RollingUpdate
   rollingUpdate:
     autoRollbackOnFailure: false
-    clusterSelectionAuto: true
+    clusterSelectionAuto: false
     globalRolloutAuto: true
     testUpgrade: false
+
