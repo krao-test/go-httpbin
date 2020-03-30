@@ -2,8 +2,8 @@ containers:
 - configuration: []
   gpuEnabled: false
   gpuVendor: Nvidia
-  imageName: rcr.rafay-edge.net:6000/test_prod_org/kutumba/httpbin
-  imageRegistry: d27rnk4
+  imageName: rcr.rafay-edge.net/test_prod_org_private/kutumba.manne/km-httpbin 
+  imageRegistry: 5m17rmy
   imageTag: 50d78e13c7cf7c3e843621c5b042c8d767560969
   livenessProbe:
     failureThreshold: 1
@@ -53,7 +53,7 @@ loggingEndpoint: null
 metricsEndpoint: null
 modifiedAt: '2019-10-02T17:52:50.366105Z'
 name: demo-circleci
-namespace: test-prod-org
+namespace: test-prod-org-private
 placementPolicy:
   latency: 200
   locationHints: []
