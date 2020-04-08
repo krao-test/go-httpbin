@@ -38,7 +38,7 @@ steps:
     workload_status_iterations=1
     while [ "$workload_status" != "Ready" ];
     do
-      workload_status=`${HOME}/rctl workload status "$(workload)" -o json|jq .result[].status|tr -d '"'`
+      workload_status=`${HOME}/rctl workload status $(workload) -o json|jq .result[].status|tr -d '"'`
       echo $workload_status
       sleep 30
       if [ $workload_status_iterations -ge 30 ];
