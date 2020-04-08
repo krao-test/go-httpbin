@@ -53,3 +53,11 @@ steps:
       workload_status_iterations=$((workload_status_iterations+1))
     done
   displayName: 'create and publish workload'
+
+- script: |
+    echo "Run your tests here"
+  displayName: 'Test'
+
+- script: |
+    ${HOME}/rctl workload delete $(workload)
+  displayName: 'Cleanup'
