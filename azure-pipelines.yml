@@ -10,7 +10,7 @@ trigger:
 variables:
   workload_yaml: demo-az-pipeline.yaml
   workload: demo-az-pipeline
-  container: httpbin
+  container: az-httpbin
 
 pool:
   vmImage: 'ubuntu-latest'
