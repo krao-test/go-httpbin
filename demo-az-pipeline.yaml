@@ -1,0 +1,72 @@
+containers:
+- args: []
+  command: []
+  configuration: []
+  deploymentType: Deployment
+  gpuEnabled: false
+  gpuVendor: Nvidia
+  imageName: rcr.rafay-edge.net/test_prod_org_private/kutumba.manne/km-httpbin
+  imageRegistry: 5m17rmy
+  imageTag: '44'
+  livenessProbe:
+    failureThreshold: 1
+    initialDelay: 5
+    period: 10
+    probeType: NoProbe
+    successThreshold: 1
+    timeout: 10
+  logging: []
+  memoryRequest: 64Mi
+  metrics: []
+  name: httpbin
+  numGpus: 0
+  ports:
+  - port: 80
+    protocol: TCP
+  readinessProbe:
+    failureThreshold: 1
+    initialDelay: 5
+    period: 10
+    probeType: NoProbe
+    successThreshold: 1
+    timeout: 10
+  size: Micro
+  volumes: []
+ingress:
+- apiKeyHeaderName: apikey
+  auth: NoAuth
+  caCertId: null
+  certId: null
+  cname: demo-az-pipeline.run.rafay-edge.net
+  domain: SystemDomain
+  host: demo-az-pipeline
+  ingressType: APIGateway
+  name: demo-az-pipeline
+  port: 443
+  protocol: HTTPS
+  routes:
+  - host: httpbin
+    ingressPort: 5000
+    path: /
+    port: 80
+    preserveHost: true
+    protocol: HTTP
+    routeType: Internal
+loggingEndpoint: null
+metricsEndpoint: null
+modifiedAt: '2020-03-27T16:45:46.743344Z'
+name: demo-az-pipeline
+namespace: test-prod-org-private
+placementPolicy:
+  clusterLabelSelector:
+  - km-eks-prod-0115
+  latency: 200
+  policyType: Labels
+sharedVolumes: []
+upgradePolicy:
+  policyType: RollingUpdate
+  rollingUpdate:
+    autoRollbackOnFailure: false
+    clusterSelectionAuto: false
+    globalRolloutAuto: true
+    testUpgrade: false
