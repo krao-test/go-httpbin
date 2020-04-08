@@ -19,7 +19,7 @@ steps:
 - task: Docker@2
   inputs:
     containerRegistry: 'rafay-registry'
-    repository: 'test_prod_org_private/kutumba.manne/httpbin'
+    repository: 'test_prod_org_private/kutumba.manne/az-httpbin'
     command: 'buildAndPush'
     Dockerfile: '**/Dockerfile'
   displayName: 'Build and push image'
