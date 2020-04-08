@@ -59,5 +59,7 @@ steps:
   displayName: 'Test'
 
 - script: |
+    export RCTL_API_KEY=$(RCTL_API_KEY)
+    export RCTL_API_SECRET=$(RCTL_API_SECRET)
     ${HOME}/rctl workload delete $(workload)
   displayName: 'Cleanup'
