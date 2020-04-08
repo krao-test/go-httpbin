@@ -18,10 +18,10 @@ containers:
   logging: []
   memoryRequest: 64Mi
   metrics: []
-  name: httpbin
+  name: az-httpbin
   numGpus: 0
   ports:
-  - port: 80
+  - port: 8080
     protocol: TCP
   readinessProbe:
     failureThreshold: 1
@@ -45,10 +45,10 @@ ingress:
   port: 443
   protocol: HTTPS
   routes:
-  - host: httpbin
+  - host: az-httpbin
     ingressPort: 5000
     path: /
-    port: 80
+    port: 8080
     preserveHost: true
     protocol: HTTP
     routeType: Internal
