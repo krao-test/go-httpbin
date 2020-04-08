@@ -33,7 +33,7 @@ steps:
     mkdir -p ${HOME}/.rafay/cli
     ${HOME}/rctl workload create $(workload_yaml)
     ${HOME}/rctl workload set-image $(workload) $(container) $(RAFAY_REGISTRY_ENDPOINT)/$(RAFAY_ORGANIZATION_LABEL)/$(container):$(Build.BuildId)
-    ${HOME}/rctl workload publish "$workload"
+    ${HOME}/rctl workload publish $(workload)
     workload_status="Not Ready"
     workload_status_iterations=1
     while [ "$workload_status" != "Ready" ];
