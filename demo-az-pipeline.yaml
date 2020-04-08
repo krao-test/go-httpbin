@@ -21,7 +21,7 @@ containers:
   name: az-httpbin
   numGpus: 0
   ports:
-  - port: 8080
+  - port: 80
     protocol: TCP
   readinessProbe:
     failureThreshold: 1
@@ -48,7 +48,7 @@ ingress:
   - host: az-httpbin
     ingressPort: 5000
     path: /
-    port: 8080
+    port: 80
     preserveHost: true
     protocol: HTTP
     routeType: Internal
