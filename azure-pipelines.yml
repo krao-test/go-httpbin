@@ -7,6 +7,11 @@
 trigger:
 - master
 
+variables:
+  workload_yaml: demo-az-pipeline.yaml
+  workload: demo-az-pipeline
+  container: httpbin
+
 pool:
   vmImage: 'ubuntu-latest'
 
@@ -17,11 +22,32 @@ steps:
     repository: 'test_prod_org_private/kutumba.manne/httpbin'
     command: 'buildAndPush'
     Dockerfile: '**/Dockerfile'
-
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+  displayName: 'Build and push image'
 
 - script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+    wget -O ${HOME}/rctl-linux-amd64.tar.bz2 https://s3-us-west-2.amazonaws.com/rafay-prod-cli/publish/rctl-linux-amd64.tar.bz2
+    tar -C ${HOME} -xf ${HOME}/rctl-linux-amd64.tar.bz2
+    chmod 0755 ${HOME}/rctl
+    mkdir -p ${HOME}/.rafay/cli
+    ${HOME}/rctl workload create $(workload_yaml)
+    ${HOME}/rctl workload set-image $(workload) $(container) $(RAFAY_REGISTRY_ENDPOINT)/$(RAFAY_ORGANIZATION_LABEL)/$(container):$(Build.BuildId)
+    ${HOME}/rctl workload publish "$workload"
+    workload_status="Not Ready"
+    workload_status_iterations=1
+    while [ "$workload_status" != "Ready" ];
+    do
+      workload_status=`${HOME}/rctl workload status "$(workload)" -o json|jq .result[].status|tr -d '"'`
+      echo $workload_status
+      sleep 30
+      if [ $workload_status_iterations -ge 30 ];
+      then
+        break
+      fi
+      if [ "$workload_status" = "Failed" ];
+      then
+        echo "Workload Deployment Failed"
+        break
+      fi
+      workload_status_iterations=$((workload_status_iterations+1))
+    done
+  displayName: 'create and publish workload'
