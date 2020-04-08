@@ -14,7 +14,7 @@ steps:
 - task: Docker@2
   inputs:
     containerRegistry: 'rafay-registry'
-    repository: 'test_prod_org_private/kutumba.manne'
+    repository: 'test_prod_org_private/kutumba.manne/httpbin'
     command: 'buildAndPush'
     Dockerfile: '**/Dockerfile'
 
