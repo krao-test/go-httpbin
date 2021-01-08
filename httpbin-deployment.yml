@@ -25,6 +25,6 @@ spec:
     spec:
       containers:
       - name: km-httpbin
-        image: rcr.rafay-edge.net/test_prod_org_private/defaultproject/kutumba.manne/km-httpbin:master-3feb348
+        image: rcr.rafay-edge.net/test_prod_org_private/defaultproject/kutumba.manne/km-httpbin:master-caed0eb
         ports:
         - containerPort: 8080
