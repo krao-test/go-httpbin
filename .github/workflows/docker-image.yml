@@ -76,8 +76,10 @@ jobs:
           return 1
           }
           ./rctl namespace list > /tmp/namespace
+          set +e
           grep -i $WORKLOAD_NAMESPACE /tmp/namespace > /dev/null 2>&1
           if [ $? -eq 1 ]; then
+            set -e
             ./rctl create namespace $WORKLOAD_NAMESPACE
           fi
           rm /tmp/namespace
