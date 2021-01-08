@@ -41,7 +41,7 @@ jobs:
           
       - 
         name: update image in the deployment
-        run: sed -i '/image/c\        image: ${{ secrets.REGISTRY_ENDPOINT }}/${{ secrets.REGISTRY_LABEL }}/km-httpbin:${{ steps.vars.outputs.branch }}-${{ steps.vars.outputs.sha_short }}' httpbin-deployment.yml 
+        run: sed -i '/image/c\image: ${{ secrets.REGISTRY_ENDPOINT }}/${{ secrets.REGISTRY_LABEL }}/km-httpbin:${{ steps.vars.outputs.branch }}-${{ steps.vars.outputs.sha_short }}' httpbin-deployment.yml 
         
       - 
         name: Commit changes
