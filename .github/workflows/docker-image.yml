@@ -44,7 +44,7 @@ jobs:
       - 
         name: update image in the deployment
         shell: bash
-        run: echo $IMAGE
+        run: ls
         
       - 
         name: Commit changes
