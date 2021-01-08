@@ -28,5 +28,5 @@ spec:
         image: rcr.rafay-edge.net/test_prod_org_private/defaultproject/kutumba.manne/km-httpbin:master-6148572
         ports:
         - containerPort: 8080
-        image: rcr.rafay-edge.net/test_prod_org_private/defaultproject/kutumba.manne/km-httpbin:master-6148572
+      imagePullSecrets:
       - name: gh-pull-secret
