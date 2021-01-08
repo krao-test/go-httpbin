@@ -25,6 +25,6 @@ spec:
     spec:
       containers:
       - name: km-httpbin
-        image: httpbin
+        image:"$IMAGE"
         ports:
         - containerPort: 8080
