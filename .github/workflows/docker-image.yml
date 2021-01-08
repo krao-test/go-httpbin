@@ -54,7 +54,8 @@ jobs:
         with:
           repository:  krao-test/km-yaml
           path: km-yaml
-          ref: master  
+          ref: master
+          token: ${{ secrets.GIT_PAT }}
           
       - 
         name: update image in the deployment
