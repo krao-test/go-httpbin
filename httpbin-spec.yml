@@ -1,0 +1,5 @@
+name: demo-app-gh-action
+namespace: demo-gh
+type: NativeYaml
+clusters: demo-eks4
+payload: "./httpbin-deployment.yml"
