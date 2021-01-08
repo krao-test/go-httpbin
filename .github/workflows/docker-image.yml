@@ -30,4 +30,4 @@ jobs:
           file: ./Dockerfile
           platforms: linux/amd64,linux/arm64,linux/386
           push: true
-          tags: user/app:latest
+          tags: ${{ secrets.REGISTRY_ENDPOINT }}/${{ secrets.REGISTRY_LABEL }}/km-httpbin:latest
