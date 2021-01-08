@@ -44,7 +44,7 @@ jobs:
       - 
         name: update image in the deployment
         shell: bash
-        run: ls
+        run: sed -i '/image/c\        image:"$IMAGE"' httpbin-deployment.yml
         
       - 
         name: Commit changes
