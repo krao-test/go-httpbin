@@ -54,6 +54,7 @@ jobs:
         with:
           repository:  krao-test/km-yaml
           path: km-yaml
+          ref: master  
           
       - 
         name: update image in the deployment
