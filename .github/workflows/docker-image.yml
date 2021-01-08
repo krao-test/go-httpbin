@@ -48,12 +48,17 @@ jobs:
           echo "RCTL_PROJECT=${{ secrets.RCTL_PROJECT }}" >> $GITHUB_ENV
           echo "WORKLOAD_NAME=demo-app-gh-action" >> $GITHUB_ENV
           echo "WORKLOAD_NAMESPACE=demo-gh" >> $GITHUB_ENV      
-    
+      
+      - name: Checkout yaml repo
+        uses: actions/checkout@v2
+        with:
+          repository:  krao-test/km-yaml
+          path: km-yaml
+          
       - 
         name: update image in the deployment
         shell: bash
-        run: sed -i "/image:/c\        image:\ $IMAGE" httpbin-deployment.yml
-        
+        run: sed -i "/image:/c\        image:\ $IMAGE" km-yaml/httpbin-deployment.yml 
       - 
         name: Commit changes
         uses: EndBug/add-and-commit@v6
@@ -62,51 +67,52 @@ jobs:
           author_email: nani.36@gmail.com
           message: 'updating image tag'
           add: 'httpbin-deployment.yml'
+          cwd: 'km-yaml'
           
-      -
-        name: Deploy Workload
-        run: |
-          wget -q https://s3-us-west-2.amazonaws.com/rafay-prod-cli/publish/rctl-linux-amd64.tar.bz2
-          tar -xf rctl-linux-amd64.tar.bz2
-          chmod 0755 rctl
-          LookupWorkload () {
-          local workload match="$1"
-          shift
-          for workload; do [[ "$workload" == "$match" ]] && return 0; done
-          return 1
-          }
-          ./rctl namespace list > /tmp/namespace
-          set +e
-          grep -i $WORKLOAD_NAMESPACE /tmp/namespace > /dev/null 2>&1
-          if [ $? -eq 1 ]; then
-            set -e
-            ./rctl create namespace $WORKLOAD_NAMESPACE
-          fi
-          rm /tmp/namespace
-          wl_tmp=`./rctl workload list -o json | jq '.result[]|.name' |cut -d'"' -f2`
-          WL_TMP_ARRAY=( $wl_tmp )
-          set +e
-          LookupWorkload $WORKLOAD_NAME "${WL_TMP_ARRAY[@]}"
-          if [ $? -eq 1 ]; then
-            set -e
-            ./rctl create workload ./httpbin-spec.yml
-          else
-            ./rctl update workload ./httpbin-spec.yml
-          fi
-          ./rctl publish workload $WORKLOAD_NAME
-          workload_status="Not Ready"
-          workload_status_iterations=1
-          while [ "$workload_status" != "Ready" ];
-          do
-            workload_status=`./rctl status workload $WORKLOAD_NAME -o json|jq .result[].status|tr -d '"'`
-            echo $workload_status
-            sleep 30
-            if [ $workload_status_iterations -ge 30 ]; then
-              break
-            fi
-            if [ "$workload_status" = "Failed" ]; then
-              echo "Workload Deployment Failed"
-            break
-            fi
-            workload_status_iterations=$((workload_status_iterations+1))
-          done
+      #-
+      #  name: Deploy Workload
+      #  run: |
+      #    wget -q https://s3-us-west-2.amazonaws.com/rafay-prod-cli/publish/rctl-linux-amd64.tar.bz2
+      #    tar -xf rctl-linux-amd64.tar.bz2
+      #    chmod 0755 rctl
+      #    LookupWorkload () {
+      #    local workload match="$1"
+      #    shift
+      #    for workload; do [[ "$workload" == "$match" ]] && return 0; done
+      #    return 1
+      #    }
+      #    ./rctl namespace list > /tmp/namespace
+      #    set +e
+      #    grep -i $WORKLOAD_NAMESPACE /tmp/namespace > /dev/null 2>&1
+      #    if [ $? -eq 1 ]; then
+      #      set -e
+      #      ./rctl create namespace $WORKLOAD_NAMESPACE
+      #    fi
+      #    rm /tmp/namespace
+      #    wl_tmp=`./rctl workload list -o json | jq '.result[]|.name' |cut -d'"' -f2`
+      #    WL_TMP_ARRAY=( $wl_tmp )
+      #    set +e
+      #    LookupWorkload $WORKLOAD_NAME "${WL_TMP_ARRAY[@]}"
+      #    if [ $? -eq 1 ]; then
+      #      set -e
+      #      ./rctl create workload ./httpbin-spec.yml
+      #    else
+      #      ./rctl update workload ./httpbin-spec.yml
+      #    fi
+      #    ./rctl publish workload $WORKLOAD_NAME
+      #    workload_status="Not Ready"
+      #    workload_status_iterations=1
+      #    while [ "$workload_status" != "Ready" ];
+      #    do
+      #      workload_status=`./rctl status workload $WORKLOAD_NAME -o json|jq .result[].status|tr -d '"'`
+      #      echo $workload_status
+      #      sleep 30
+      #      if [ $workload_status_iterations -ge 30 ]; then
+      #        break
+      #      fi
+      #      if [ "$workload_status" = "Failed" ]; then
+      #        echo "Workload Deployment Failed"
+      #      break
+      #      fi
+      #      workload_status_iterations=$((workload_status_iterations+1))
+      #    done
