@@ -38,3 +38,16 @@ jobs:
           platforms: linux/amd64
           push: true
           tags: ${{ secrets.REGISTRY_ENDPOINT }}/${{ secrets.REGISTRY_LABEL }}/km-httpbin:${{ steps.vars.outputs.branch }}-${{ steps.vars.outputs.sha_short }}
+          
+      - 
+        name: update image in the deployment
+        run: sed -i '/image/c\        image: ${{ secrets.REGISTRY_ENDPOINT }}\/${{ secrets.REGISTRY_LABEL }}\/km-httpbin:${{ steps.vars.outputs.branch }}-${{ steps.vars.outputs.sha_short }}' httpbin-deployment.yml 
+        
+      - 
+        name: Commit changes
+        uses: EndBug/add-and-commit@v6
+        with:
+          author_name: kutumba
+          author_email: nani.36@gmail.com
+          message: 'updating image tag'
+          add: 'httpbin-deployment.yml'
